@@ -1,42 +1,40 @@
-"""
-football field detection project
-
-returns a grayscaled image in which the field is 0
-"""
-
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-# # read only one frame
-# img = cv2.imread('football.png')
 
-def preproc(img):
-
-    # convert to hsv image
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+class PreProcessing:
     
-    # green range
-    lower_green = np.array([40,40,40])
-    upper_green = np.array([70,255,255])
+    def __init__(self, img):
+        self.img = img 
+        
     
-    
-    # define a mask with upper and lower values
-    mask = cv2.inRange(hsv, lower_green, upper_green)
-    
-    # apply mask
-    res = cv2.bitwise_and(img, img, mask=mask)
-    
-    # hsv to gray
-    res_bgr = cv2.cvtColor(res, cv2.COLOR_HSV2BGR)
-    res_gray = cv2.cvtColor(res_bgr, cv2.COLOR_BGR2GRAY)
-    
-    # define some morphological operations to reduce noise
-    kernel = np.ones((13,13), np.uint8)
-    thresh = cv2.threshold(res_gray, 127, 255, cv2.THRESH_BINARY_INV |  cv2.THRESH_OTSU)[1]
-    thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
-    
-    return res_gray, thresh
+    def preproc(img):
+        
+        # convert to hsv image
+        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        
+        # green range
+        lower_green = np.array([40,40,40])
+        upper_green = np.array([70,255,255])
+        
+        
+        # define a mask with upper and lower values
+        mask = cv2.inRange(hsv, lower_green, upper_green)
+        
+        # apply mask
+        res = cv2.bitwise_and(img, img, mask=mask)
+        
+        # hsv to gray
+        res_bgr = cv2.cvtColor(res, cv2.COLOR_HSV2BGR)
+        res_gray = cv2.cvtColor(res_bgr, cv2.COLOR_BGR2GRAY)
+        
+        # define some morphological operations to reduce noise
+        kernel = np.ones((13,13), np.uint8)
+        thresh = cv2.threshold(res_gray, 127, 255, cv2.THRESH_BINARY_INV |  cv2.THRESH_OTSU)[1]
+        thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+        
+        return res_gray, thresh
 
 
 
