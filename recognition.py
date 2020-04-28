@@ -6,8 +6,7 @@ from pre_proc import PreProcessing
 img = cv2.imread('football.png')
 
 gray, thresh = PreProcessing.preproc(img)
-idx = 0
-count = 0
+
 
 # convert to hsv image
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -25,9 +24,24 @@ upper_red = np.array([176,255,255])
 lower_white = np.array([0,0,0])
 upper_white = np.array([0,0,255])
 
-# identify objects which height is greater then weight. those will be detect as players
+idx = 0
+count = 0
 
-for c in range(len(img)):
+"""
+///////////////////////////
+// criar uns filtro ai ////
+// pra achar a porra /////
+//// do contorno ////////
+////////////////////////
+ (\__/)  ||
+ (•ㅅ•)  ||
+ ( 　 づ || 
+"""
+
+contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+# identify objects which height is greater then weight. those will be detect as players
+for c in contours:
     x,y,w,h = cv2.boundingRect(c)
     
     # detect players
@@ -51,22 +65,32 @@ for c in range(len(img)):
             res2 = cv2.cvtColor(res2, cv2.COLOR_BGR2GRAY)
             nzCountred = cv2.countNonZero(res2)
 
+font = cv2.FONT_HERSHEY_SIMPLEX
+
 if(nzCount >= 20):
      #Mark blue jersy players as france
-     cv2.putText(image, 'France', (x-2, y-2), font, 0.8, (255,0,0), 2, cv2.LINE_AA)
-     cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),3)
+     cv2.putText(img, 'France', (x-2, y-2), font, 0.8, (255,0,0), 2, cv2.LINE_AA)
+     cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),3)
 else:
     pass
 
 
 if(nzCountred>=20):
     #Mark red jersy players as belgium
-    cv2.putText(image, 'Belgium', (x-2, y-2), font, 0.8, (0,0,255), 2, cv2.LINE_AA)
-    cv2.rectangle(image,(x,y),(x+w,y+h),(0,0,255),3)
+    cv2.putText(img, 'Belgium', (x-2, y-2), font, 0.8, (0,0,255), 2, cv2.LINE_AA)
+    cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),3)
 else:
     pass          
             
 
+"""
+///////////////////////////
+/////////// :) //////////
+////////////////////////
+ (\__/)  ||
+ (•ㅅ•)  ||
+ ( 　 づ || 
+"""
 
 
 
