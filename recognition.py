@@ -34,25 +34,25 @@ for i in range(len(x_)):
             final = cv2.rectangle(rgb, v0, vf, color, thickness)
 
 
-plt.imshow(final)
-plt.title('Players Rectangle')
-plt.xticks([]),plt.yticks([])
+# plt.imshow(final)
+# plt.title('Players Rectangle')
+# plt.xticks([]),plt.yticks([])
   
 
 
 
 
-# # plot multiple images
-# plt.subplots(1, 2, figsize=(20, 15))
+# plot multiple images
+plt.subplots(1, 2, figsize=(20, 15))
 
 
-# plt.subplot(1, 2, 1), plt.imshow(gray, cmap='gray', vmin = 0, vmax = 255)
-# plt.title('gray image')
-# plt.xticks([]),plt.yticks([])
+plt.subplot(1, 2, 1), plt.imshow(gray, cmap='gray', vmin = 0, vmax = 255)
+plt.title('gray image')
+plt.xticks([]),plt.yticks([])
 
-# plt.subplot(1, 2, 2), plt.imshow(thresh, cmap='gray', vmin = 0, vmax = 255)
-# plt.title('threshold image')
-# plt.xticks([]),plt.yticks([])
+plt.subplot(1, 2, 2), plt.imshow(thresh, cmap='gray', vmin = 0, vmax = 255)
+plt.title('threshold image')
+plt.xticks([]),plt.yticks([])
 
-# plt.show()
-# plt.close()
+plt.show()
+plt.close()

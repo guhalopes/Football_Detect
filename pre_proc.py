@@ -14,8 +14,12 @@ class PreProcessing:
         # convert to hsv image
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         
+        # # green range
+        # lower_green = np.array([40,40,40])
+        # upper_green = np.array([70,255,255])
+        
         # green range
-        lower_green = np.array([40,40,40])
+        lower_green = np.array([50, 100, 100])
         upper_green = np.array([70,255,255])
         
         
