@@ -9,18 +9,19 @@ image = cv2.imread("BraBel.png")
 
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-rec = Colors.ColorRec(image)
+rec,thresh = Processing.Rectangles(image)
 
+rec_rgb = cv2.cvtColor(rec, cv2.COLOR_BGR2RGB)
 
 # plot multiple images
-plt.subplots(2, 1, figsize=(20, 15))
+plt.subplots(1, 2, figsize=(30, 30))
 
 
-plt.subplot(2, 1, 1), plt.imshow(rgb, vmin = 0, vmax = 255)
-plt.title('original')
+plt.subplot(1, 2, 1), plt.imshow(thresh, cmap = 'gray', vmin = 0, vmax = 255)
+plt.title('thresh')
 plt.xticks([]),plt.yticks([])
 
-plt.subplot(2, 1, 2), plt.imshow(rec, vmin = 0, vmax = 255)
+plt.subplot(1, 2, 2), plt.imshow(rec_rgb, vmin = 0, vmax = 255)
 plt.title('players team identification')
 plt.xticks([]),plt.yticks([])
 

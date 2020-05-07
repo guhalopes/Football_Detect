@@ -6,11 +6,11 @@ from FirstFilters import PreProcessing
 
 class Processing:
     
-    def Rectangles(image):
+    def Rectangles(frame):
         
-        rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         
-        gray, thresh = PreProcessing.GrayThresh(image)
+        gray, thresh = PreProcessing.GrayThresh(frame)
         
         x_ = []
         y_ = []
@@ -35,5 +35,37 @@ class Processing:
                     v0 = (x_[i], y_[i])
                     vf = (x_[i]+w_[i], y_[i]+h_[i])
                     final = cv2.rectangle(rgb, v0, vf, color, thickness)
-                    final = cv2.cvtColor(final, cv2.COLOR_BGR2RGB)
-        return final
+                    
+        output = cv2.cvtColor(final, cv2.COLOR_BGR2RGB)
+                    
+        return output,thresh
+
+           
+"""
+//////////////////////////
+/// Testing Function ////
+/////////////////////////
+ (\__/)  ||
+ (•ㅅ•)  ||
+ ( 　 づ || 
+"""        
+
+# image = cv2.imread("GreNal.png")
+# rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+# out = Processing.Rectangles(image)
+# out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
+
+# # plot multiple images
+# plt.subplots(1, 2, figsize=(20, 15))
+
+
+# plt.subplot(1, 2, 1), plt.imshow(rgb, vmin = 0, vmax = 255)
+# plt.title('original')
+# plt.xticks([]),plt.yticks([])
+
+# plt.subplot(1, 2, 2), plt.imshow(out, vmin = 0, vmax = 255)
+# plt.title('out')
+# plt.xticks([]),plt.yticks([])
+
+# plt.show()
+# plt.close()
