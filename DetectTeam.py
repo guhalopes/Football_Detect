@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 
 class Colors:
     
+    
     """"
     new approach:
         use the player tracking function and use only one color
@@ -57,7 +58,7 @@ class Colors:
         
         team = 0
         
-        if ratio > 0.10:
+        if ratio > 0.1:
             team = 1
         else:
             team = 0
@@ -74,35 +75,32 @@ class Colors:
  (•ㅅ•)  ||
  ( 　 づ || 
 """        
-img = cv2.imread("test_inter4.png")
+# img = cv2.imread("BraBel.png")
 
-lower_red = np.array([0,160,120])
-upper_red = np.array([200,255,255])
+# lower_red = np.array([140,100,160])
+# upper_red = np.array([190,255,255])
 
-# gremio -> use a range that goes to light blue til very dark
-lower_blue = np.array([110,50,50])
-upper_blue = np.array([145,255,255])
+# # gremio -> use a range that goes to light blue til very dark
+# lower_blue = np.array([110,50,50])
+# upper_blue = np.array([145,255,255])
 
-pre_img, out, rat, team = Colors.DetectTeams(img, lower_red, upper_red)
-
-out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
-rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+# img_in, img_out, out, team = Colors.DetectTeams(img, lower_red, upper_red)
 
 
-# plot multiple images
-plt.subplots(1, 2, figsize=(20, 15))
+# # plot multiple images
+# plt.subplots(1, 2, figsize=(20, 15))
 
 
-plt.subplot(1, 2, 1), plt.imshow(pre_img, vmin = 0, vmax = 255)
-plt.title('original')
-plt.xticks([]),plt.yticks([])
+# plt.subplot(1, 2, 1), plt.imshow(img_in, vmin = 0, vmax = 255)
+# plt.title('original')
+# plt.xticks([]),plt.yticks([])
 
-plt.subplot(1, 2, 2), plt.imshow(out, cmap = 'gray', vmin = 0, vmax = 255)
-plt.title('out')
-plt.xticks([]),plt.yticks([])
+# plt.subplot(1, 2, 2), plt.imshow(img_out, vmin = 0, vmax = 255)
+# plt.title('out')
+# plt.xticks([]),plt.yticks([])
 
-plt.show()
-plt.close()
+# plt.show()
+# plt.close()
 
 
 
