@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from FirstFilters import PreProcessing
+from PreProcessing import PreProcessing
 
 class Colors:
     
@@ -36,6 +36,7 @@ class Colors:
         y_ = []
         w_ = []
         h_ = []
+        player_ = []
         
         for c in contours:
           x,y,w,h = cv2.boundingRect(c)
@@ -50,14 +51,14 @@ class Colors:
                     player_image = img[y_[i]:y_[i]+h_[i], x_[i]:x_[i]+w_[i]]
                     player_hsv = cv2.cvtColor(player_image, cv2.COLOR_BGR2HSV)
                     player_rgb = cv2.cvtColor(player_image, cv2.COLOR_BGR2RGB)
-                    
+                    plt.imshow(player_rgb)
+                    plt.xticks([]),plt.yticks([])
                     mask1 = cv2.inRange(player_hsv, lower_yellow, upper_yellow)
                     res1_hsv = cv2.bitwise_and(player_image, player_image, mask = mask1)
                     res1_bgr = cv2.cvtColor(res1_hsv, cv2.COLOR_HSV2BGR)
                     res1_gray = cv2.cvtColor(res1_bgr, cv2.COLOR_BGR2GRAY)
                     nzCount = cv2.countNonZero(res1_gray)
-                    print(nzCount)
-
+                    
                     mask2 = cv2.inRange(player_hsv, lower_red, upper_red)
                     res2_hsv = cv2.bitwise_and(player_image, player_image, mask = mask2)
                     res2_bgr = cv2.cvtColor(res2_hsv, cv2.COLOR_HSV2BGR)
@@ -93,7 +94,7 @@ class Colors:
  ( 　 づ || 
 """        
 
-# img = cv2.imread("JecCri1.png")
+# img = cv2.imread("BraBel.png")
 # rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 # out = Colors.ColorRec(img)
 
@@ -102,7 +103,7 @@ class Colors:
 # plt.subplots(1, 2, figsize=(20, 15))
 
 
-# plt.subplot(1, 2, 1), plt.imshow(rgb, vmin = 0, vmax = 255)
+# plt.subplot(1, 2, 1), plt.imshow(img, vmin = 0, vmax = 255)
 # plt.title('original')
 # plt.xticks([]),plt.yticks([])
 

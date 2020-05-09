@@ -1,45 +1,75 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from FirstFilters import PreProcessing
+from PreProcessing import PreProcessing
 
-frame = cv2.imread("BraBel.png")
-rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+""""
+new approach:
+    use the player tracking function and use only one color
+    (everything that is red belongs to team A. the rest is team B)
+    our priority should be plained shirts
+"""
 
-gray, thresh = PreProcessing.GrayThresh(frame)
+def count_noncolor_np(img):
+    """Return the number of pixels in img that are not colorA.
+    img must be a Numpy array with colour values along the last axis.
 
-x_ = []
-y_ = []
-w_ = []
-h_ = []
+    """
+    return img.any(axis=-1).sum()
 
-contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+#input colors should be np.array
+def DetectTeams(image, lower, upper):
 
+    
+    # convert to hsv
+    image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        
+    # mask the field in order to improve the rate
+    # green range
+    lower_green = np.array([40,40,40])
+    upper_green = np.array([70,255,255])
+    
+    # define a mask with upper and lower values
+    mask = cv2.inRange(image_hsv, lower_green, upper_green)
+    image_nofield = cv2.bitwise_not(image, image, mask=mask)
+    image_nofield_hsv = cv2.cvtColor(image_nofield, cv2.COLOR_BGR2HSV)
+    image_nofield = cv2.cvtColor(image_nofield, cv2.COLOR_BGR2RGB)
+    
+    # find the colors within the specified boundaries and apply
+    # the mask
+    mask = cv2.inRange(image_nofield_hsv, lower, upper)
+    output = cv2.bitwise_and(image_nofield, image_nofield, mask = mask)
+    tot_pix = count_noncolor_np(image_nofield)
+    color_pix = count_noncolor_np(output)
+    ratio = color_pix/tot_pix
+    
+    ## Find the team
+    print(ratio)
+    return ratio, image_nofield, output
+    # if max_ratio < 0.20:
+    #     print('not sure')
+    #     return 'not_sure'
+    # else:
+    #     ## Identify black pixels first and return them first
+    #     if ratioList[1] >= 0.30:
+    #         print("black")
+    #         return 'black'
+    #     elif ratioList[0] >=0.20:
+    #         print("Non black")
+    #         return 'non-black'
 
+img = cv2.imread("test_inter4.png")
 
-for c in contours:
-  x,y,w,h = cv2.boundingRect(c)
-  x_.append(x)
-  y_.append(y)
-  w_.append(w)
-  h_.append(h)
-  
+lower_red = np.array([0,160,120])
+upper_red = np.array([200,255,255])
 
-color = (255, 255, 0)
-thickness = 3
+# gremio -> use a range that goes to light blue til very dark
+lower_blue = np.array([110,50,50])
+upper_blue = np.array([145,255,255])
 
-for i in range(len(x_)):
-    if(h_[i]>(1.2)*w_[i]):
-        if(w_[i]>6 and h_[i]>6):
-            player_image = frame[y_[i]:y_[i]+h_[i], x_[i]:x_[i]+w_[i]]
-            player_hsv = cv2.cvtColor(player_image, cv2.COLOR_BGR2HSV)
-            player_rgb = cv2.cvtColor(player_image, cv2.COLOR_BGR2RGB)
-            v0 = (x_[i], y_[i])
-            vf = (x_[i]+w_[i], y_[i]+h_[i])
-            cv2.rectangle(thresh, v0, vf, color, thickness)
-            print('\nAverage color (BGR): ',np.array(cv2.mean(player_image[y:y+h,x:x+w])).astype(np.uint8))
-            print('[x, y]: ', (x_[i], y_[i]))
+rat, pre_img, out = DetectTeams(img, lower_red, upper_red)
 
+out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
            
 """
 //////////////////////////
@@ -50,18 +80,35 @@ for i in range(len(x_)):
  ( 　 づ || 
 """        
 
+rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
 
 # plot multiple images
 plt.subplots(1, 2, figsize=(20, 15))
 
 
-plt.subplot(1, 2, 1), plt.imshow(rgb, vmin = 0, vmax = 255)
+plt.subplot(1, 2, 1), plt.imshow(pre_img, vmin = 0, vmax = 255)
 plt.title('original')
 plt.xticks([]),plt.yticks([])
 
-plt.subplot(1, 2, 2), plt.imshow(thresh, cmap = 'gray', vmin = 0, vmax = 255)
+plt.subplot(1, 2, 2), plt.imshow(out, cmap = 'gray', vmin = 0, vmax = 255)
 plt.title('out')
 plt.xticks([]),plt.yticks([])
 
 plt.show()
 plt.close()
+
+
+
+# gray, thresh = PreProcessing.GrayThresh(image)
+
+
+#  # yellow range
+# lower_yellow = np.array([21, 180, 64])
+# upper_yellow = np.array([40, 200, 255])
+
+# # red range
+# lower_red = np.array([0,160,50])
+# upper_red = np.array([10,255,255])
+
+# contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
