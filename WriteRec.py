@@ -62,7 +62,7 @@ out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
 plt.subplots(1, 2, figsize=(20, 15))
 
 
-plt.subplot(1, 2, 1), plt.imshow(players[8], vmin = 0, vmax = 255)
+plt.subplot(1, 2, 1), plt.imshow(players[2], vmin = 0, vmax = 255)
 plt.title('original')
 plt.xticks([]),plt.yticks([])
 
@@ -73,4 +73,4 @@ plt.xticks([]),plt.yticks([])
 plt.show()
 plt.close()
 
-cv2.imwrite("test_gremio4.png", players[8])
+cv2.imwrite("player_test.png", players[2])
