@@ -46,13 +46,12 @@ class Colors:
 
     #input colors should be np.array
     def TeamsK(frame, k):
-        
+
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         gray, thresh = PreProcessing.GrayThresh(frame)
         
-        colorB = (0, 0, 255)
-        colorA = (0, 255, 255)
+
         thickness = 2
         font = cv2.FONT_HERSHEY_SIMPLEX
         
@@ -74,19 +73,23 @@ class Colors:
         ar = []
         value = []
         images = [] 
-    
+        
+        # mask the field in order to improve the GetAvg func
+        # green range
+        lower_green = np.array([40,40,40])
+        upper_green = np.array([70,255,255])
+            
         for i in range(len(x_)):
-            if(h_[i]>(1.2)*w_[i]):
-                if(w_[i]>6 and h_[i]>6):
+            if(h_[i]>(1.005)*w_[i]):
+                if(w_[i]>4 and h_[i]>4):
                     player_image = frame[y_[i]:y_[i]+h_[i], x_[i]:x_[i]+w_[i]]
-                    images.append(player_image)
                     _, _, colors = Colors.GetAvg(player_image, k)
                     value.append(colors)
                                       
         players = {}
         for j in range(len(value)):
             players['player' + str(j+1)] = value[j]
-        
+                
         #se mudar o K, tem que mudar essa linha
         df = pd.DataFrame(players, index = ['R1', 'G1', 'B1', 'R2', 'G2', 'B2', 'R3', 'G3', 'B3'])
         df = df.T
@@ -95,11 +98,13 @@ class Colors:
         kmeans.fit(df)
         df['Labels'] = kmeans.labels_
         
+        colorB = (255,0,0)
+        colorA = (0, 0, 255)
+        
         j = 0
         for i in range(len(x_)):
-            if(h_[i]>(1.2)*w_[i]):
-                if(w_[i]>6 and h_[i]>6):
-                    player_image = frame[y_[i]:y_[i]+h_[i], x_[i]:x_[i]+w_[i]]
+            if(h_[i]>(1.005)*w_[i]):
+                if(w_[i]>4 and h_[i]>4):
                     v0 = (x_[i], y_[i])
                     vf = (x_[i]+w_[i], y_[i]+h_[i])
                     if(df['Labels'][j] == 0):
@@ -127,10 +132,10 @@ class Colors:
 
 
 k = 3
-img = cv2.imread("Test/GreNal.png")
+img = cv2.imread("Test/Wolv.png")
 df, final = Colors.TeamsK(img, k)
 final = cv2.cvtColor(final, cv2.COLOR_BGR2RGB)
-plt.figure(figsize=(30,30))
+plt.figure(figsize=(20,20), dpi = 72)
 plt.imshow(final)
 plt.title('Identified players')
 plt.xticks([]), plt.yticks([])

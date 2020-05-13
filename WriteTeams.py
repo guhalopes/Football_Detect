@@ -71,40 +71,25 @@ class Processing:
  (•ㅅ•)  ||
  ( 　 づ || 
 """        
-img = cv2.imread("BraBel.png")
+# img = cv2.imread("BraBel.png")
 
-#vermelho (com o inter teve bons resultados)
-lower_red = np.array([140,100,160])
-upper_red = np.array([190,255,255])
+# #vermelho (com o inter teve bons resultados)
+# lower_red = np.array([140,100,160])
+# upper_red = np.array([190,255,255])
 
-# gremio -> use a range that goes to light blue til very dark
-lower_blue = np.array([110,50,50])
-upper_blue = np.array([145,255,255])
+# # gremio -> use a range that goes to light blue til very dark
+# lower_blue = np.array([110,50,50])
+# upper_blue = np.array([145,255,255])
 
-teams, out = Processing.RectangleTeams(img, lower_red, upper_red)
+# teams, out = Processing.RectangleTeams(img, lower_red, upper_red)
 
-rgb_out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
+# rgb_out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
 
-img_in = cv2.imread("GreNal.png")
-rgb_in = cv2.cvtColor(img_in, cv2.COLOR_BGR2RGB)
-
-
-plt.imshow(rgb_out, cmap = 'gray', vmin = 0, vmax = 255)
-plt.title('out')
-plt.xticks([]),plt.yticks([])
-
-plt.show()
-
-# # plot multiple images
-# plt.subplots(1,2, figsize=(20, 15))
+# img_in = cv2.imread("GreNal.png")
+# rgb_in = cv2.cvtColor(img_in, cv2.COLOR_BGR2RGB)
 
 
-
-# plt.subplot(1, 2, 1), plt.imshow(rgb_in, vmin = 0, vmax = 255)
-# plt.title('original')
-# plt.xticks([]),plt.yticks([])
-
-# plt.subplot(1, 2, 2), plt.imshow(rgb_out, cmap = 'gray', vmin = 0, vmax = 255)
+# plt.imshow(rgb_out, cmap = 'gray', vmin = 0, vmax = 255)
 # plt.title('out')
 # plt.xticks([]),plt.yticks([])
 

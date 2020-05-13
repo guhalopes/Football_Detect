@@ -29,14 +29,14 @@ class PreProcessing:
         res_gray = cv2.cvtColor(res_bgr, cv2.COLOR_BGR2GRAY)
         
         # define some morphological operations to reduce noise
-        kernel = np.ones((13,13), np.uint8)
+        kernel = np.ones((15,15), np.uint8)
         thresh = cv2.threshold(res_gray, 127, 255, cv2.THRESH_BINARY_INV |  cv2.THRESH_OTSU)[1]
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
 
         return res_gray, thresh
 
 
-frame = cv2.imread("BraBel.png")
+frame = cv2.imread("Test/BraBel2.png")
 gray, thresh = PreProcessing.GrayThresh(frame)
 
 # plot multiple images

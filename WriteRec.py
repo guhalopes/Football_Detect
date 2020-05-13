@@ -53,24 +53,24 @@ class Processing:
  ( 　 づ || 
 """        
 
-image = cv2.imread("GreNal.png")
-rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-out, players = Processing.Rectangles(image)
-out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
+# image = cv2.imread("GreNal.png")
+# rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+# out, players = Processing.Rectangles(image)
+# out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
 
-# plot multiple images
-plt.subplots(1, 2, figsize=(20, 15))
+# # plot multiple images
+# plt.subplots(1, 2, figsize=(20, 15))
 
 
-plt.subplot(1, 2, 1), plt.imshow(players[2], vmin = 0, vmax = 255)
-plt.title('original')
-plt.xticks([]),plt.yticks([])
+# plt.subplot(1, 2, 1), plt.imshow(players[2], vmin = 0, vmax = 255)
+# plt.title('original')
+# plt.xticks([]),plt.yticks([])
 
-plt.subplot(1, 2, 2), plt.imshow(out, vmin = 0, vmax = 255)
-plt.title('out')
-plt.xticks([]),plt.yticks([])
+# plt.subplot(1, 2, 2), plt.imshow(out, vmin = 0, vmax = 255)
+# plt.title('out')
+# plt.xticks([]),plt.yticks([])
 
-plt.show()
-plt.close()
+# plt.show()
+# plt.close()
 
-cv2.imwrite("player_test.png", players[2])
+# cv2.imwrite("player_test.png", players[2])
