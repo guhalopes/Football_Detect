@@ -127,7 +127,7 @@ class Colors:
 
 
 k = 3
-img = cv2.imread("GreNal.png")
+img = cv2.imread("Test/GreNal.png")
 df, final = Colors.TeamsK(img, k)
 final = cv2.cvtColor(final, cv2.COLOR_BGR2RGB)
 plt.figure(figsize=(30,30))
